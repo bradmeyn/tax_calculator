@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Tax Calculator</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lato&family=Ubuntu&family=Ubuntu+Mono&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/45deced4f4.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="everything">
+    <header class="header">
+      <div class="header__content">
+        <i class="fas fa-calculator"></i>
+        <h1 class="header__title">
+          Fintools
+        </h1>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <div class="main__content">
+        <div class="main-heading-container">
+          <h1 class="main__heading">Personal Tax Calculator</h1>
+        </div>
+
+
+        <div class="components">
+
+
+          <div class="component component-inputs">
+            <h2 class="component__heading">Inputs</h2>
+
+            <div class="inputs">
+
+
+              <div class="input__container">
+                <label for="income" class="input__label">Annual Income: </label>
+
+                <input type="text" class="input__box income-input" name="income" value="0" />
+              </div>
+              <div class="dividend-inputs-wrapper">
+                <div class="input__container input__container--dividend">
+                  <label for="dividends" class="input__label">Annual Dividend Income </label>
+
+                  <input type="text" class="input__box dividend-input" name="dividends" placeholder="0"
+                    data-type="currency" value="0" />
+                </div>
+
+                <div class="input__container--franking">
+                  <label for="deductions" class="input__label">Franking % </label>
+                  <input type="text" class="input__box--franking" name="deductions" placeholder="100"
+                    data-type="percentage" min="0" max="100" value="100" />
+                </div>
+              </div>
+
+
+              <div class="input__container">
+                <label for="deductions" class="input__label">Annual Deductions </label>
+                <input type="text" class="input__box deductions-input" value="0" name="income" placeholder="0" />
+              </div>
+
+
+
+
+
+              <button class="btn">Calculate My Tax!</button>
+            </div>
+
+
+
+
+
+          </div>
+
+          <div class="component">
+            <h2 class="component__heading">Outcome</h2>
+            <div class="outcomes">
+
+              <div class="outcome">
+                <h3 class="outcome__title outcome__title--totalTax">Tax Payable</h3>
+
+                <div class="outcome__text totalTaxOutcome">$0</div>
+              </div>
+
+              <div class="outcome">
+                <h3 class="outcome__title">Cash After Tax</h3>
+
+                <div class="outcome__text cashOutcome">$0</div>
+              </div>
+
+              <div class="outcome">
+                <h3 class="outcome__title">Actual Tax Rate</h3>
+
+                <div class="outcome__text taxRateOutcome">0%</div>
+              </div>
+
+              <div class="outcome">
+                <h3 class="outcome__title">Marginal Tax Rate</h3>
+
+                <div class="outcome__text outcome__text-marginal">0%</div>
+              </div>
+              <div class="outcome chart-container">
+                <canvas id="myChart"></canvas>
+              </div>
+
+            </div>
+
+            <div class="collapser">
+              <div class="collapser__button" id="details">
+
+                <div class="collapser__icon"></div>
+                <h3 class="collapser__heading">Details</h3>
+              </div>
+
+              <div class="collapser__content">
+
+                <table class="calc__table">
+                  <tr>
+                    <th class="calc__heading calc__label">Description</th>
+                    <th class="calc__outcome calc__heading">Amount ($)</th>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">Annual Income</td>
+                    <td class="calc__outcome totalIncomeTable">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">Investment Income</td>
+                    <td class="calc__outcome totalIncomeTable">$0.00</td>
+                  </tr>
+
+                  <tr>
+                    <td class="calc__label">Franking Credits</td>
+                    <td class="calc__outcome frankingCreditsTable">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">Deductions</td>
+                    <td class="calc__outcome deductionsTable">($0.00)</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label calc__total">Taxable Income</td>
+                    <td class="calc__total calc__outcome taxableIncomeTable">
+                      $0.00
+                    </td>
+                  </tr>
+                </table>
+
+                <table class="calc__table">
+                  <tr>
+                    <th class="calc__heading calc__label">Description</th>
+                    <th class="calc__outcome calc__heading">Amount ($)</th>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">Marginal Tax</td>
+                    <td class="calc__outcome marginalTaxTable">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">Medicare Levy</td>
+                    <td class="calc__outcome medicareTable">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">Less: Low Income Tax Offset</td>
+                    <td class="calc__outcome litoTable">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">Less: Low & Medium Tax Offset</td>
+                    <td class="calc__outcome lmtoTable">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">Less: Franking Credits</td>
+                    <td class="calc__outcome frankingCreditsTable2">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label calc__total">Total Tax Payable</td>
+                    <td class="calc__total calc__outcome totalTaxTable">$0.00</td>
+                  </tr>
+                </table>
+
+                <!-- <table class="calc__table">
+                  <tr>
+                    <th class="calc__heading calc__label">Marginal Bracket</th>
+                    <th class="calc__heading calc__label">Marginal Rate</th>
+                    <th class="calc__outcome calc__heading">Amount ($)</th>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">0 – $18,200</td>
+                    <td class="calc__label">0%</td>
+                    <td class="calc__outcome marginalTaxTable">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">$18,201 – $37,000</td>
+                    <td class="calc__label">19%</td>
+                    <td class="calc__outcome medicareTable">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">$37,001 – $90,000</td>
+                    <td class="calc__label">32.5%</td>
+                    <td class="calc__outcome litoTable">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">$90,001 – $180,000</td>
+                    <td class="calc__label">37%</td>
+                    <td class="calc__outcome lmtoTable">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label">$180,001 and over</td>
+                    <td class="calc__label">45%</td>
+                    <td class="calc__outcome frankingCreditsTable2">$0.00</td>
+                  </tr>
+                  <tr>
+                    <td class="calc__label calc__total">Total Marginal Tax</td>
+                    <td class="calc__label calc__total"></td>
+                    <td class="calc__total calc__outcome totalTaxTable">$0.00</td>
+                  </tr>
+                </table> -->
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+  </main>
+  <footer class="footer">
+
+
+    <div class="footer-container">
+      <div class="footer-item">Fintools &trade; 2020</div>
+      <div class="footer-item">Brad Meyn</div>
+    </div>
+  </footer>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+
+</html>
